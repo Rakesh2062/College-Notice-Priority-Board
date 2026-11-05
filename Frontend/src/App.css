@@ -1,0 +1,269 @@
+/* App.css — Component styles for the College Notice Board */
+
+/* ========================
+   HEADER
+   ======================== */
+.header {
+  background-color: #0b1f3a;
+  color: #ffffff;
+  padding: 20px 24px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ========================
+   CONTAINER — centers content
+   ======================== */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ========================
+   FILTER BAR
+   ======================== */
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.filter-btn {
+  padding: 10px 24px;
+  border: 2px solid #0b1f3a;
+  border-radius: 24px;
+  background-color: #ffffff;
+  color: #0b1f3a;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background-color: #e8edf2;
+}
+
+.filter-btn.active {
+  background-color: #0b1f3a;
+  color: #ffffff;
+}
+
+/* ========================
+   NOTICE GRID — responsive layout
+   Cards sit 2-per-row on wide screens, 1-per-row on mobile
+   ======================== */
+.notice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* ========================
+   NOTICE CARD
+   ======================== */
+.notice-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: opacity 0.2s ease;
+}
+
+/* Unread cards: navy left border + bold title */
+.notice-card.unread {
+  border-left: 4px solid #0b1f3a;
+}
+
+.notice-card.unread .notice-title {
+  font-weight: 700;
+}
+
+/* Read cards: muted/greyed out look */
+.notice-card.read {
+  opacity: 0.65;
+}
+
+/* Card header: title + priority badge side by side */
+.notice-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.notice-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+/* ========================
+   PRIORITY BADGES
+   ======================== */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.badge-high {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+
+.badge-medium {
+  background-color: #f39c12;
+  color: #ffffff;
+}
+
+.badge-low {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+/* ========================
+   CARD BODY
+   ======================== */
+.notice-description {
+  font-size: 0.92rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.notice-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #888;
+}
+
+.notice-category {
+  background-color: #f0f2f5;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.notice-date {
+  font-style: italic;
+}
+
+/* ========================
+   CARD FOOTER — status label + toggle button
+   ======================== */
+.notice-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.status-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.status-unread {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.status-read {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.toggle-btn {
+  padding: 8px 16px;
+  border: 1px solid #0b1f3a;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #0b1f3a;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #0b1f3a;
+  color: #ffffff;
+}
+
+/* ========================
+   STATUS / ERROR / EMPTY MESSAGES
+   ======================== */
+.status-message,
+.error-message,
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.05rem;
+  border-radius: 8px;
+}
+
+.status-message {
+  color: #555;
+}
+
+.error-message {
+  color: #c0392b;
+  background-color: #fdecea;
+  border: 1px solid #f5c6cb;
+}
+
+.empty-state {
+  color: #888;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+}
+
+/* ========================
+   RESPONSIVE — mobile-friendly adjustments
+   ======================== */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.3rem;
+  }
+
+  .filter-bar {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    /* Comfortably tappable: at least 44px tall */
+    min-height: 44px;
+  }
+
+  .notice-card {
+    padding: 16px;
+  }
+
+  .toggle-btn {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+}
