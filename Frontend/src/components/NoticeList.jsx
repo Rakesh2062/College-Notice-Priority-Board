@@ -2,17 +2,19 @@
  * NoticeList.jsx
  *
  * Props:
- *   notices      – array of notice objects (already filtered by App)
- *   onToggleRead – callback passed through to each NoticeCard
- *
- * If the array is empty (e.g., no High-priority notices when "Important" is selected),
- * we show a friendly empty-state message instead of a blank screen.
+ *   notices  – array of notice objects (already filtered by App)
+ *   onSelect – callback passed through to each NoticeCard to open the detail modal
  */
 import NoticeCard from "./NoticeCard";
 
-function NoticeList({ notices, onToggleRead }) {
+function NoticeList({ notices, onSelect }) {
   if (notices.length === 0) {
-    return <p className="empty-state">No notices to display.</p>;
+    return (
+      <div className="empty-state">
+        <span className="empty-icon">📋</span>
+        <p>No notices to display.</p>
+      </div>
+    );
   }
 
   return (
@@ -21,7 +23,7 @@ function NoticeList({ notices, onToggleRead }) {
         <NoticeCard
           key={notice._id}
           notice={notice}
-          onToggleRead={onToggleRead}
+          onSelect={onSelect}
         />
       ))}
     </div>

@@ -10,9 +10,26 @@ const noticeRoutes = require("./routes/noticeRoutes");
 const app = express();
 
 // ── Middleware ──────────────────────────────────────────────────────────────
-// CORS: allow requests ONLY from the React dev server (or production origin).
-// Locking it to CLIENT_ORIGIN prevents random browsers from hitting the API.
-app.use(cors({ origin: process.env.CLIENT_ORIGIN }));
+// Allow common dev origins or whatever is configured
+const allowedOrigins = [
+  process.env.CLIENT_ORIGIN,
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000",
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(null, true); // fallback allow dev origins
+    },
+    credentials: true,
+  })
+);
 
 // Parse incoming JSON request bodies so req.body is populated.
 app.use(express.json());

@@ -72,5 +72,36 @@ const updateReadStatus = async (req, res) => {
   }
 };
 
-module.exports = { getNotices, updateReadStatus };
+/**
+ * POST /api/notices
+ * Create a new notice
+ */
+const createNotice = async (req, res) => {
+  const { title, description, category, priority, date } = req.body;
+
+  if (!title || !description || !category || !priority) {
+    return res.status(400).json({
+      success: false,
+      message: "Please provide title, description, category, and priority",
+    });
+  }
+
+  try {
+    const notice = await Notice.create({
+      title,
+      description,
+      category,
+      priority,
+      date: date ? new Date(date) : new Date(),
+      isRead: false,
+    });
+
+    res.status(201).json({ success: true, data: notice });
+  } catch (error) {
+    console.error("createNotice error:", error.message);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { getNotices, updateReadStatus, createNotice };
 

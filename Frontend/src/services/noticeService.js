@@ -18,6 +18,15 @@ export const getNotices = async () => {
 };
 
 /**
+ * Create a new notice
+ * POST /notices  body: { title, description, category, priority, date }
+ */
+export const createNotice = async (noticeData) => {
+  const response = await api.post("/notices", noticeData);
+  return response.data.data;
+};
+
+/**
  * Toggle a notice's read/unread status.
  * PATCH /notices/:id/read-status  body: { isRead }
  * Returns the updated notice object from the server.
