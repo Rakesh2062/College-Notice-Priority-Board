@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
-function AuthModal({ onClose }) {
+function AuthModal({ onClose, defaultIsRegister = false }) {
   const { login, register } = useAuth();
-  const [isRegister, setIsRegister] = useState(false);
+  const [isRegister, setIsRegister] = useState(defaultIsRegister);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,6 +12,10 @@ function AuthModal({ onClose }) {
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setIsRegister(defaultIsRegister);
+  }, [defaultIsRegister]);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -91,13 +95,13 @@ function AuthModal({ onClose }) {
 
         <div className="modal-header">
           <h2 className="modal-title">
-            {isRegister ? "Create an Account" : "Sign In"}
+            {isRegister ? "Create an Account" : "Sign In to Portal"}
           </h2>
         </div>
         <p className="modal-intro">
           {isRegister
             ? "Register to access the Campus Notice Board"
-            : "Sign in with your campus credentials to manage notices"}
+            : "Sign in with your campus credentials to access the board"}
         </p>
 
         {errorMsg && <div className="form-error-banner">{errorMsg}</div>}
@@ -173,7 +177,7 @@ function AuthModal({ onClose }) {
                 value={formData.role}
                 onChange={handleChange}
               >
-                <option value="student">Student (Read-Only)</option>
+                <option value="student">Student (Read-Only & Bookmark)</option>
                 <option value="admin">Faculty / Admin (Manage Notices)</option>
               </select>
             </div>
@@ -239,4 +243,3 @@ function AuthModal({ onClose }) {
 }
 
 export default AuthModal;
-

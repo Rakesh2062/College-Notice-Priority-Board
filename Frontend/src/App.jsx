@@ -6,6 +6,7 @@ import {
   updateNotice,
   deleteNotice,
 } from "./services/noticeService";
+import { useAuth } from "./context/AuthContext";
 import Header from "./components/Header";
 import FilterBar from "./components/FilterBar";
 import NoticeList from "./components/NoticeList";
@@ -13,9 +14,12 @@ import NoticeModal from "./components/NoticeModal";
 import CreateNoticeModal from "./components/CreateNoticeModal";
 import AuthModal from "./components/AuthModal";
 import EmergencyTicker from "./components/EmergencyTicker";
+import LandingPage from "./components/LandingPage";
 import "./App.css";
 
 function App() {
+  const { user, loading: authLoading } = useAuth();
+
   const [notices, setNotices] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
@@ -43,8 +47,11 @@ function App() {
   }, [pinnedIds]);
 
   useEffect(() => {
+    if (!user) return;
+
     const fetchNotices = async () => {
       try {
+        setLoading(true);
         const data = await getNotices();
         setNotices(data);
         setError(null);
@@ -61,7 +68,7 @@ function App() {
     };
 
     fetchNotices();
-  }, []);
+  }, [user]);
 
   const urgentNotice = useMemo(() => {
     const today = new Date();
@@ -181,6 +188,19 @@ function App() {
   const handleNavigate = (notice) => {
     setSelectedNotice(notice);
   };
+
+  if (authLoading) {
+    return (
+      <div className="landing-auth-loading">
+        <div className="loader" />
+        <p>Initializing portal session...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <LandingPage />;
+  }
 
   return (
     <div className="app">
