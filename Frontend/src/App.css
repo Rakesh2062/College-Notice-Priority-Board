@@ -1519,3 +1519,327 @@
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   VECTEEZY TEMPLATE EXACT RECREATION STYLES
+   ========================================================================== */
+.vecteezy-landing {
+  position: relative;
+  min-height: 100vh;
+  background-color: #0b1433;
+  background: radial-gradient(circle at 15% 30%, #152759 0%, #0c173b 50%, #070e24 100%);
+  color: #ffffff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Background Flowing Abstract Wave on Right Half */
+.wave-decoration-container {
+  position: absolute;
+  top: 0;
+  right: -5%;
+  width: 58%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+.flowing-mesh-wave {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.25));
+}
+
+/* Top Navbar */
+.hero-navbar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 38px 80px 20px;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+  color: #ffffff;
+}
+
+.nav-item.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+.navbar-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.navbar-search-btn:hover {
+  color: #ffffff;
+}
+
+.nav-search-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.navbar-search-btn:hover .nav-search-circle {
+  transform: scale(1.08);
+}
+
+/* Hero Section */
+.hero-main-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 40px 80px 100px;
+}
+
+.hero-left-column {
+  max-width: 580px;
+}
+
+.hero-display-title {
+  font-size: 3.85rem;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.8px;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.hero-description-paragraph {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #94a3b8;
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+
+/* Button Row */
+.hero-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.v-btn {
+  padding: 14px 34px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Left Button: Cyan / Sky Blue Pill */
+.v-btn-cyan {
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  color: #ffffff;
+}
+
+.v-btn-cyan:hover {
+  background: linear-gradient(135deg, #7dd3fc 0%, #0369a1 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
+}
+
+/* Right Button: Gradient Violet / Purple Pill */
+.v-btn-purple {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff;
+}
+
+.v-btn-purple:hover {
+  background: linear-gradient(135deg, #818cf8 0%, #4338ca 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+}
+
+/* Learn More Details Modal */
+.modal-learnmore {
+  max-width: 640px;
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+.learnmore-body {
+  margin-top: 10px;
+}
+
+.learnmore-highlight {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #334155;
+  margin-bottom: 20px;
+}
+
+.learnmore-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.learnmore-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.learnmore-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.learnmore-item h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+
+.learnmore-item p {
+  font-size: 0.86rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.demo-credentials-box {
+  background: #f1f5f9;
+  border-left: 4px solid #2563eb;
+  padding: 14px 16px;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.88rem;
+  color: #334155;
+}
+
+.demo-credentials-box p {
+  margin: 4px 0 0;
+}
+
+.demo-badge {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  color: #2563eb;
+}
+
+.demo-credentials-box code {
+  background: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .hero-navbar {
+    padding: 24px 30px 10px;
+  }
+  .navbar-links {
+    display: none;
+  }
+  .hero-main-content {
+    padding: 30px 30px 60px;
+  }
+  .hero-display-title {
+    font-size: 2.85rem;
+  }
+  .wave-decoration-container {
+    width: 85%;
+    opacity: 0.45;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-display-title {
+    font-size: 2.35rem;
+  }
+  .hero-action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .v-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
