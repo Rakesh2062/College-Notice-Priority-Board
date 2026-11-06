@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { getNotices, updateReadStatus, createNotice } from "./services/noticeService";
+import {
+  getNotices,
+  updateReadStatus,
+  createNotice,
+  updateNotice,
+  deleteNotice,
+} from "./services/noticeService";
 import Header from "./components/Header";
 import FilterBar from "./components/FilterBar";
 import NoticeList from "./components/NoticeList";
@@ -7,18 +13,17 @@ import NoticeModal from "./components/NoticeModal";
 import CreateNoticeModal from "./components/CreateNoticeModal";
 import "./App.css";
 
-/**
- * App.jsx — Root component that owns all main state.
- */
 function App() {
   const [notices, setNotices] = useState([]);
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [importantOnly, setImportantOnly] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
-  // Fetch notices once when the component mounts.
+  
   useEffect(() => {
     const fetchNotices = async () => {
       try {
@@ -40,21 +45,35 @@ function App() {
     fetchNotices();
   }, []);
 
-  // Compute the filtered list on every render.
+  const counts = {
+    all: notices.length,
+    Academics: notices.filter((n) => n.category === "Academics").length,
+    Examination: notices.filter((n) => n.category === "Examination").length,
+    Events: notices.filter((n) => n.category === "Events").length,
+    General: notices.filter((n) => n.category === "General").length,
+    important: notices.filter((n) => n.priority === "High").length,
+  };
+
   const filteredNotices = notices.filter((notice) => {
-    if (activeFilter === "important") return notice.priority === "High";
-    return true;
+    const matchesCategory =
+      activeCategory === "all" || notice.category === activeCategory;
+
+    const matchesPriority = !importantOnly || notice.priority === "High";
+
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      !query ||
+      notice.title.toLowerCase().includes(query) ||
+      notice.description.toLowerCase().includes(query);
+
+    return matchesCategory && matchesPriority && matchesSearch;
   });
 
-  /**
-   * Toggle a notice's read/unread status.
-   */
+
   const handleToggleRead = async (id, currentIsRead) => {
     try {
       const updated = await updateReadStatus(id, !currentIsRead);
-      setNotices((prev) =>
-        prev.map((n) => (n._id === updated._id ? updated : n))
-      );
+      setNotices((prev) => prev.map((n) => (n._id === updated._id ? updated : n)));
       if (selectedNotice && selectedNotice._id === updated._id) {
         setSelectedNotice(updated);
       }
@@ -64,13 +83,25 @@ function App() {
     }
   };
 
-  /**
-   * Add a newly created notice to state
-   */
   const handleCreateNotice = async (noticeData) => {
     const created = await createNotice(noticeData);
-    // Prepend to display at the beginning
     setNotices((prev) => [created, ...prev]);
+  };
+
+  const handleUpdateNotice = async (id, formData) => {
+    const updated = await updateNotice(id, formData);
+    setNotices((prev) => prev.map((n) => (n._id === updated._id ? updated : n)));
+    setSelectedNotice(updated);
+  };
+
+  const handleDeleteNotice = async (id) => {
+    await deleteNotice(id);
+    setNotices((prev) => prev.filter((n) => n._id !== id));
+    setSelectedNotice(null); // close the modal
+  };
+
+  const handleNavigate = (notice) => {
+    setSelectedNotice(notice);
   };
 
   return (
@@ -78,8 +109,13 @@ function App() {
       <Header onOpenCreate={() => setIsCreateOpen(true)} />
       <main className="container">
         <FilterBar
-          activeFilter={activeFilter}
-          onFilterChange={setActiveFilter}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+          importantOnly={importantOnly}
+          onToggleImportant={() => setImportantOnly((prev) => !prev)}
+          counts={counts}
         />
 
         {loading && (
@@ -93,20 +129,24 @@ function App() {
           <NoticeList
             notices={filteredNotices}
             onSelect={setSelectedNotice}
+            searchQuery={searchQuery}
           />
         )}
       </main>
 
-      {/* Detail modal — rendered when a notice is selected */}
       {selectedNotice && (
         <NoticeModal
           notice={selectedNotice}
+          notices={filteredNotices}
+          searchQuery={searchQuery}
           onClose={() => setSelectedNotice(null)}
           onToggleRead={handleToggleRead}
+          onNavigate={handleNavigate}
+          onUpdate={handleUpdateNotice}
+          onDelete={handleDeleteNotice}
         />
       )}
 
-      {/* Create notice modal */}
       {isCreateOpen && (
         <CreateNoticeModal
           onClose={() => setIsCreateOpen(false)}
@@ -118,3 +158,4 @@ function App() {
 }
 
 export default App;
+

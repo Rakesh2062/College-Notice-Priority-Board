@@ -1,8 +1,4 @@
-/* App.css — Enhanced styles for the College Notice Board */
 
-/* ========================
-   HEADER
-   ======================== */
 .header {
   background: linear-gradient(135deg, #0b1f3a 0%, #173862 100%);
   color: #ffffff;
@@ -78,59 +74,206 @@
   line-height: 1;
 }
 
-/* ========================
-   CONTAINER — centers content
-   ======================== */
+
 .container {
   max-width: 960px;
   margin: 0 auto;
   padding: 28px 16px;
 }
 
-/* ========================
-   FILTER BAR
-   ======================== */
-.filter-bar {
+
+.filter-bar-container {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 14px;
   margin-bottom: 24px;
+  background-color: #ffffff;
+  padding: 16px 20px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.search-bar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1rem;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 11px 40px 11px 42px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #1e293b;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.search-input::placeholder {
+  color: #94a3b8;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  background: #e2e8f0;
+  border: none;
+  color: #64748b;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.search-clear-btn:hover {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
+.filter-toolbar-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.search-highlight {
+  background-color: #fef08a;
+  color: #854d0e;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.empty-hint {
+  display: block;
+  font-size: 0.88rem;
+  color: #94a3b8;
+  margin-top: 6px;
 }
 
 .filter-btn {
-  padding: 9px 22px;
-  border: 2px solid #0b1f3a;
-  border-radius: 24px;
-  background-color: #ffffff;
-  color: #0b1f3a;
-  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  background-color: #f8fafc;
+  color: #475569;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .filter-btn:hover {
-  background-color: #e8edf2;
+  background-color: #e2e8f0;
+  color: #0f172a;
   transform: translateY(-1px);
 }
 
 .filter-btn.active {
   background-color: #0b1f3a;
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(11, 31, 58, 0.25);
+  border-color: #0b1f3a;
+  box-shadow: 0 2px 6px rgba(11, 31, 58, 0.2);
 }
 
-/* ========================
-   NOTICE GRID — responsive layout
-   ======================== */
+.filter-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background-color: #e2e8f0;
+  color: #334155;
+  font-weight: 700;
+}
+
+.filter-btn.active .filter-count-badge {
+  background-color: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+.filter-divider {
+  display: none;
+}
+
+/* Priority filter button */
+.important-btn {
+  border-color: #fecaca;
+  background-color: #fff1f2;
+  color: #be123c;
+}
+
+.important-btn:hover {
+  background-color: #ffe4e6;
+  border-color: #fda4af;
+}
+
+.important-btn.active {
+  background-color: #e11d48;
+  color: #ffffff;
+  border-color: #e11d48;
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.3);
+}
+
+.important-badge {
+  background-color: #fecdd3;
+  color: #9f1239;
+}
+
+.important-btn.active .important-badge {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.priority-fire-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+
 .notice-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
   gap: 20px;
 }
 
-/* ========================
-   NOTICE CARD — compact, clickable
-   ======================== */
+
 .notice-card {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
@@ -155,7 +298,6 @@
   outline-offset: 2px;
 }
 
-/* Unread cards: colored left border + bold title */
 .notice-card.unread {
   border-left: 4px solid #0b1f3a;
 }
@@ -164,7 +306,6 @@
   font-weight: 700;
 }
 
-/* Read cards: muted look */
 .notice-card.read {
   opacity: 0.65;
   background-color: #fafbfc;
@@ -174,7 +315,6 @@
   opacity: 0.9;
 }
 
-/* Card header: title + priority badge */
 .notice-card-header {
   display: flex;
   justify-content: space-between;
@@ -190,16 +330,13 @@
   line-height: 1.4;
 }
 
-/* Preview text — truncated description on card */
 .notice-preview {
   font-size: 0.88rem;
   color: #64748b;
   line-height: 1.5;
 }
 
-/* ========================
-   PRIORITY BADGES
-   ======================== */
+
 .badge {
   display: inline-block;
   padding: 3px 10px;
@@ -226,9 +363,6 @@
   color: #15803d;
 }
 
-/* ========================
-   CARD META ROW
-   ======================== */
 .notice-meta {
   display: flex;
   justify-content: space-between;
@@ -258,7 +392,6 @@
   color: #94a3b8;
 }
 
-/* Read/Unread dot indicator on card */
 .status-dot {
   display: inline-block;
   width: 8px;
@@ -274,9 +407,7 @@
   background-color: #22c55e;
 }
 
-/* ========================
-   STATUS LABEL (used in modal footer)
-   ======================== */
+
 .status-label {
   font-size: 0.82rem;
   font-weight: 600;
@@ -293,10 +424,6 @@
   background-color: #f0fdf4;
   color: #16a34a;
 }
-
-/* ========================
-   TOGGLE & ACTION BUTTONS
-   ======================== */
 .toggle-btn {
   padding: 9px 18px;
   border: 2px solid #0b1f3a;
@@ -314,9 +441,6 @@
   color: #ffffff;
 }
 
-/* ========================
-   MODALS — backdrop & content
-   ======================== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -328,6 +452,120 @@
   z-index: 1000;
   padding: 20px;
   animation: fadeIn 0.2s ease;
+  gap: 16px;
+}
+
+.modal-nav-btn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.modal-nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: #ffffff;
+  transform: scale(1.1);
+}
+
+.modal-nav-btn:disabled,
+.modal-nav-btn.nav-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-counter {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  background-color: #f0f9ff;
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+
+.btn-edit:hover {
+  background-color: #0369a1;
+  color: #ffffff;
+  border-color: #0369a1;
+}
+
+.btn-delete {
+  background-color: #fff1f2;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+.btn-delete:hover {
+  background-color: #be123c;
+  color: #ffffff;
+  border-color: #be123c;
+}
+
+.btn-delete-confirm {
+  background-color: #be123c;
+  color: #ffffff;
+  border-color: #be123c;
+}
+
+.btn-delete-confirm:hover:not(:disabled) {
+  background-color: #9f1239;
+  border-color: #9f1239;
+}
+
+.btn-delete-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .modal-nav-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .modal-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 .modal-content {
@@ -435,9 +673,6 @@
   border-top: 1px solid #e2e8f0;
 }
 
-/* ========================
-   CREATE NOTICE FORM STYLES
-   ======================== */
 .create-notice-form {
   display: flex;
   flex-direction: column;
@@ -540,10 +775,6 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-/* ========================
-   ANIMATIONS
-   ======================== */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -560,9 +791,6 @@
   }
 }
 
-/* ========================
-   LOADING SPINNER
-   ======================== */
 .loader {
   width: 32px;
   height: 32px;
@@ -577,9 +805,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* ========================
-   STATUS / ERROR / EMPTY MESSAGES
-   ======================== */
 .status-message,
 .error-message,
 .empty-state {
@@ -612,9 +837,6 @@
   margin-bottom: 12px;
 }
 
-/* ========================
-   RESPONSIVE — mobile-friendly adjustments
-   ======================== */
 @media (max-width: 600px) {
   .header-container {
     flex-direction: column;

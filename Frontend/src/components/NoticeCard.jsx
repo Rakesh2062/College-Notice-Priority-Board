@@ -1,12 +1,7 @@
-/**
- * NoticeCard.jsx — Compact card showing title, priority, category, and date.
- * Clicking the card opens the detail modal (handled by App via onSelect).
- *
- * Props:
- *   notice   – a single notice object
- *   onSelect – callback: onSelect(notice) — tells App which notice to show in the modal
- */
-function NoticeCard({ notice, onSelect }) {
+
+import HighlightText from "./HighlightText";
+
+function NoticeCard({ notice, onSelect, searchQuery = "" }) {
   const formattedDate = new Date(notice.date).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
@@ -16,17 +11,22 @@ function NoticeCard({ notice, onSelect }) {
   const badgeClass = `badge badge-${notice.priority.toLowerCase()}`;
   const cardClass = `notice-card ${notice.isRead ? "read" : "unread"}`;
 
+  const previewText =
+    notice.description.length > 100
+      ? notice.description.slice(0, 100) + "…"
+      : notice.description;
+
   return (
     <div className={cardClass} onClick={() => onSelect(notice)} role="button" tabIndex={0}>
       <div className="notice-card-header">
-        <h3 className="notice-title">{notice.title}</h3>
+        <h3 className="notice-title">
+          <HighlightText text={notice.title} highlight={searchQuery} />
+        </h3>
         <span className={badgeClass}>{notice.priority}</span>
       </div>
 
       <p className="notice-preview">
-        {notice.description.length > 100
-          ? notice.description.slice(0, 100) + "…"
-          : notice.description}
+        <HighlightText text={previewText} highlight={searchQuery} />
       </p>
 
       <div className="notice-meta">

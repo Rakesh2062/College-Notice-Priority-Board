@@ -1,7 +1,4 @@
-/**
- * Header.jsx
- * App header with branded SVG logo, title, and create notice trigger button.
- */
+
 function Header({ onOpenCreate }) {
   return (
     <header className="header">

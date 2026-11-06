@@ -103,5 +103,70 @@ const createNotice = async (req, res) => {
   }
 };
 
-module.exports = { getNotices, updateReadStatus, createNotice };
+/**
+ * PUT /api/notices/:id
+ * Full update of a notice's editable fields: title, description, category, priority, date.
+ * isRead is NOT updated here — it has its own dedicated PATCH endpoint.
+ */
+const updateNotice = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: "Invalid notice ID" });
+  }
+
+  const { title, description, category, priority, date } = req.body;
+
+  if (!title || !description || !category || !priority) {
+    return res.status(400).json({
+      success: false,
+      message: "Please provide title, description, category, and priority",
+    });
+  }
+
+  try {
+    const notice = await Notice.findByIdAndUpdate(
+      id,
+      { title, description, category, priority, date: date ? new Date(date) : undefined },
+      { new: true, runValidators: true }
+    );
+
+    if (!notice) {
+      return res.status(404).json({ success: false, message: "Notice not found" });
+    }
+
+    res.status(200).json({ success: true, data: notice });
+  } catch (error) {
+    console.error("updateNotice error:", error.message);
+    res.status(500).json({ success: false, message: "Server error while updating notice" });
+  }
+};
+
+/**
+ * DELETE /api/notices/:id
+ * Permanently removes a notice document from the collection.
+ * Returns 200 with the deleted document so the frontend can remove it from state.
+ */
+const deleteNotice = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: "Invalid notice ID" });
+  }
+
+  try {
+    const notice = await Notice.findByIdAndDelete(id);
+
+    if (!notice) {
+      return res.status(404).json({ success: false, message: "Notice not found" });
+    }
+
+    res.status(200).json({ success: true, data: notice });
+  } catch (error) {
+    console.error("deleteNotice error:", error.message);
+    res.status(500).json({ success: false, message: "Server error while deleting notice" });
+  }
+};
+
+module.exports = { getNotices, updateReadStatus, createNotice, updateNotice, deleteNotice };
 

@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
 
-/**
- * CreateNoticeModal.jsx — Modal form to create a new notice.
- */
 function CreateNoticeModal({ onClose, onCreateNotice }) {
   const [formData, setFormData] = useState({
     title: "",
