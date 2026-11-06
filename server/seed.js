@@ -1,35 +1,8 @@
-/**
- * seed.js — one-time script to populate the notices collection.
- * Run once from inside the server/ folder:
- *   node seed.js
- *
- * It will:
- *  1. Connect to Atlas using your .env MONGO_URI
- *  2. Drop any existing documents in the notices collection
- *  3. Insert 10 sample notices
- *  4. Disconnect and exit
- */
-
 require("dotenv").config();
 const mongoose = require("mongoose");
+const Notice = require("./models/Notice");
+const User = require("./models/User");
 
-// ── Inline schema (mirrors models/Notice.js exactly) ─────────────────────────
-// We define it here so seed.js is self-contained and doesn't depend on the
-// rest of the app being wired up.
-const noticeSchema = new mongoose.Schema({
-  title:       { type: String, required: true },
-  description: { type: String, required: true },
-  category:    { type: String, enum: ["Academics", "Examination", "Events", "General"], required: true },
-  priority:    { type: String, enum: ["High", "Medium", "Low"], required: true },
-  date:        { type: Date, required: true },
-  isRead:      { type: Boolean, default: false },
-});
-
-const Notice = mongoose.model("Notice", noticeSchema);
-
-// ── Seed data ─────────────────────────────────────────────────────────────────
-// new Date("YYYY-MM-DD") produces a real BSON Date — not a string.
-// Do NOT change these to plain strings.
 const notices = [
   {
     title: "Mid-Semester Examination Schedule Released",
@@ -123,36 +96,41 @@ const notices = [
   },
 ];
 
-// ── Main ──────────────────────────────────────────────────────────────────────
 const seed = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ Connected to MongoDB Atlas");
+    console.log("Connected to MongoDB Atlas");
 
-    // Clear existing documents so the script is safe to re-run
-    const deleted = await Notice.deleteMany({});
-    if (deleted.deletedCount > 0) {
-      console.log(`🗑️  Cleared ${deleted.deletedCount} existing notice(s)`);
-    }
+    await Notice.deleteMany({});
+    await Notice.insertMany(notices);
+    console.log("Notices seeded successfully");
 
-    const inserted = await Notice.insertMany(notices);
-    console.log(`🌱 Inserted ${inserted.length} notices successfully`);
+    await User.deleteMany({});
 
-    // Quick verification summary
-    const high = await Notice.countDocuments({ priority: "High" });
-    const categories = await Notice.distinct("category");
-    console.log(`\n📊 Verification:`);
-    console.log(`   Total documents : ${inserted.length}`);
-    console.log(`   High priority   : ${high}`);
-    console.log(`   Categories      : ${categories.join(", ")}`);
+    await User.create({
+      name: "Faculty Admin",
+      email: "admin@college.edu",
+      password: "admin123",
+      role: "admin",
+    });
+
+    await User.create({
+      name: "Rahul Sharma",
+      email: "student@college.edu",
+      password: "student123",
+      role: "student",
+    });
+
+    console.log("Default users created:");
+    console.log("  Admin:   admin@college.edu / admin123");
+    console.log("  Student: student@college.edu / student123");
   } catch (error) {
-    console.error("❌ Seed failed:", error.message);
+    console.error("Seed failed:", error.message);
     process.exit(1);
   } finally {
     await mongoose.disconnect();
-    console.log("\n🔌 Disconnected. Done!");
+    console.log("Disconnected. Done!");
   }
 };
 
 seed();
-

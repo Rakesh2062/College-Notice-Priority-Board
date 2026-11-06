@@ -1,5 +1,8 @@
+import { useAuth } from "../context/AuthContext";
 
-function Header({ onOpenCreate }) {
+function Header({ onOpenCreate, onOpenAuth }) {
+  const { user, logout, isAdmin } = useAuth();
+
   return (
     <header className="header">
       <div className="header-container">
@@ -21,10 +24,41 @@ function Header({ onOpenCreate }) {
           </div>
         </div>
 
-        <button className="create-notice-btn" onClick={onOpenCreate}>
-          <span className="create-btn-icon">+</span>
-          <span>New Notice</span>
-        </button>
+        <div className="header-actions">
+          {user ? (
+            <div className="user-profile-badge">
+              <span className={`role-pill role-${user.role}`}>
+                {user.role === "admin" ? "🛡️ Admin" : "🎓 Student"}
+              </span>
+              <span className="user-name" title={user.email}>
+                {user.name}
+              </span>
+              <button
+                type="button"
+                className="logout-btn"
+                onClick={logout}
+                title="Sign Out"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="login-trigger-btn"
+              onClick={onOpenAuth}
+            >
+              Sign In / Register
+            </button>
+          )}
+
+          {isAdmin && (
+            <button className="create-notice-btn" onClick={onOpenCreate}>
+              <span className="create-btn-icon">+</span>
+              <span>New Notice</span>
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

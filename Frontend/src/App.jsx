@@ -1,10 +1,17 @@
 import { useState, useEffect, useMemo } from "react";
-import { getNotices, updateReadStatus, createNotice } from "./services/noticeService";
+import {
+  getNotices,
+  updateReadStatus,
+  createNotice,
+  updateNotice,
+  deleteNotice,
+} from "./services/noticeService";
 import Header from "./components/Header";
 import FilterBar from "./components/FilterBar";
 import NoticeList from "./components/NoticeList";
 import NoticeModal from "./components/NoticeModal";
 import CreateNoticeModal from "./components/CreateNoticeModal";
+import AuthModal from "./components/AuthModal";
 import EmergencyTicker from "./components/EmergencyTicker";
 import "./App.css";
 
@@ -17,6 +24,7 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [pinnedIds, setPinnedIds] = useState(() => {
     try {
       const stored = localStorage.getItem("pinned_notice_ids");
@@ -158,13 +166,32 @@ function App() {
     setNotices((prev) => [created, ...prev]);
   };
 
+  const handleUpdateNotice = async (id, formData) => {
+    const updated = await updateNotice(id, formData);
+    setNotices((prev) => prev.map((n) => (n._id === updated._id ? updated : n)));
+    setSelectedNotice(updated);
+  };
+
+  const handleDeleteNotice = async (id) => {
+    await deleteNotice(id);
+    setNotices((prev) => prev.filter((n) => n._id !== id));
+    setSelectedNotice(null);
+  };
+
+  const handleNavigate = (notice) => {
+    setSelectedNotice(notice);
+  };
+
   return (
     <div className="app">
       <EmergencyTicker
         notice={urgentNotice}
         onSelectNotice={setSelectedNotice}
       />
-      <Header onOpenCreate={() => setIsCreateOpen(false || true)} />
+      <Header
+        onOpenCreate={() => setIsCreateOpen(true)}
+        onOpenAuth={() => setIsAuthOpen(true)}
+      />
       <main className="container">
         <FilterBar
           searchQuery={searchQuery}
@@ -189,6 +216,7 @@ function App() {
             onSelect={setSelectedNotice}
             pinnedIds={pinnedIds}
             onTogglePin={togglePin}
+            searchQuery={searchQuery}
           />
         )}
       </main>
@@ -196,8 +224,13 @@ function App() {
       {selectedNotice && (
         <NoticeModal
           notice={selectedNotice}
+          notices={filteredNotices}
+          searchQuery={searchQuery}
           onClose={() => setSelectedNotice(null)}
           onToggleRead={handleToggleRead}
+          onNavigate={handleNavigate}
+          onUpdate={handleUpdateNotice}
+          onDelete={handleDeleteNotice}
           isPinned={pinnedIds.includes(selectedNotice._id)}
           onTogglePin={togglePin}
         />
@@ -208,6 +241,10 @@ function App() {
           onClose={() => setIsCreateOpen(false)}
           onCreateNotice={handleCreateNotice}
         />
+      )}
+
+      {isAuthOpen && (
+        <AuthModal onClose={() => setIsAuthOpen(false)} />
       )}
     </div>
   );
