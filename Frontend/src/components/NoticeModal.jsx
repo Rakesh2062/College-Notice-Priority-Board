@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import HighlightText from "./HighlightText";
-
+import { useAuth } from "../context/AuthContext";
 
 function NoticeModal({
   notice,
@@ -12,6 +12,7 @@ function NoticeModal({
   onUpdate,
   onDelete,
 }) {
+  const { isAdmin } = useAuth();
   const [mode, setMode] = useState("detail");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [actionError, setActionError] = useState("");
@@ -172,18 +173,22 @@ function NoticeModal({
                 >
                   {notice.isRead ? "Mark as Unread" : "Mark as Read"}
                 </button>
-                <button
-                  className="action-btn btn-edit"
-                  onClick={() => { setMode("edit"); setActionError(""); }}
-                >
-                  ✏️ Edit
-                </button>
-                <button
-                  className="action-btn btn-delete"
-                  onClick={() => { setMode("confirmDelete"); setActionError(""); }}
-                >
-                  🗑️ Delete
-                </button>
+                {isAdmin && (
+                  <>
+                    <button
+                      className="action-btn btn-edit"
+                      onClick={() => { setMode("edit"); setActionError(""); }}
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      className="action-btn btn-delete"
+                      onClick={() => { setMode("confirmDelete"); setActionError(""); }}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </>

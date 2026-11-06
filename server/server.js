@@ -6,6 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const noticeRoutes = require("./routes/noticeRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(
 app.use(express.json());
 
 // ── Routes ───────────────────────────────────────────────────────────────────
+app.use("/api/auth", authRoutes);
 app.use("/api/notices", noticeRoutes);
 
 // ── 404 Catch-all ────────────────────────────────────────────────────────────

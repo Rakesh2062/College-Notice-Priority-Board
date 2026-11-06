@@ -11,6 +11,7 @@ import FilterBar from "./components/FilterBar";
 import NoticeList from "./components/NoticeList";
 import NoticeModal from "./components/NoticeModal";
 import CreateNoticeModal from "./components/CreateNoticeModal";
+import AuthModal from "./components/AuthModal";
 import "./App.css";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedNotice, setSelectedNotice] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   
   useEffect(() => {
@@ -106,7 +108,10 @@ function App() {
 
   return (
     <div className="app">
-      <Header onOpenCreate={() => setIsCreateOpen(true)} />
+      <Header
+        onOpenCreate={() => setIsCreateOpen(true)}
+        onOpenAuth={() => setIsAuthOpen(true)}
+      />
       <main className="container">
         <FilterBar
           searchQuery={searchQuery}
@@ -152,6 +157,10 @@ function App() {
           onClose={() => setIsCreateOpen(false)}
           onCreateNotice={handleCreateNotice}
         />
+      )}
+
+      {isAuthOpen && (
+        <AuthModal onClose={() => setIsAuthOpen(false)} />
       )}
     </div>
   );
