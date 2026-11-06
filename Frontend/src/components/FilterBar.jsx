@@ -1,66 +1,86 @@
-
-const CATEGORIES = ["all", "Academics", "Examination", "Events", "General"];
-
 function FilterBar({
-  searchQuery = "",
+  searchQuery,
   onSearchChange,
-  activeCategory = "all",
+  activeCategory,
   onCategoryChange,
-  importantOnly = false,
+  importantOnly,
   onToggleImportant,
-  counts = {},
+  counts,
 }) {
+  const categories = [
+    { id: "all", label: "All Notices" },
+    { id: "Academics", label: "Academics" },
+    { id: "Examination", label: "Examination" },
+    { id: "Events", label: "Events" },
+    { id: "General", label: "General" },
+  ];
+
   return (
-    <div className="filter-bar-container">
-      {/* ── LIVE SEARCH BAR ── */}
-      <div className="search-bar-wrapper">
-        <span className="search-icon">🔍</span>
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search notices by title, keyword, or description..."
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-        />
-        {searchQuery && (
-          <button
-            className="search-clear-btn"
-            onClick={() => onSearchChange("")}
-            title="Clear search"
-            aria-label="Clear search"
+    <div className="filter-panel">
+      <div className="search-bar-box">
+        <div className="search-input-wrapper">
+          <svg
+            className="search-input-icon"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            ✕
-          </button>
-        )}
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            className="search-input-field"
+            placeholder="Search circulars by keyword, department, or content..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              className="search-clear-btn"
+              onClick={() => onSearchChange("")}
+              title="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="filter-toolbar-bottom">
-        <div className="category-filters">
-          {CATEGORIES.map((cat) => {
-            const label = cat === "all" ? "All Notices" : cat;
-            const count = counts[cat] ?? 0;
-            const isActive = activeCategory === cat;
-
+      <div className="filter-controls-row">
+        <div className="category-chips">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            const count = counts[cat.id] || 0;
             return (
               <button
-                key={cat}
-                className={`filter-btn ${isActive ? "active" : ""}`}
-                onClick={() => onCategoryChange(cat)}
+                key={cat.id}
+                type="button"
+                className={`category-chip ${isActive ? "active" : ""}`}
+                onClick={() => onCategoryChange(cat.id)}
               >
-                <span>{label}</span>
-                <span className="filter-count-badge">{count}</span>
+                <span>{cat.label}</span>
+                <span className="chip-count">{count}</span>
               </button>
             );
           })}
         </div>
 
         <button
-          className={`filter-btn important-btn ${importantOnly ? "active" : ""}`}
+          type="button"
+          className={`important-toggle-chip ${importantOnly ? "active" : ""}`}
           onClick={onToggleImportant}
         >
-          <span>High Priority Only</span>
+          <span className="important-indicator">⚠️</span>
+          <span>Important Only</span>
           {counts.important !== undefined && (
-            <span className="filter-count-badge important-badge">{counts.important}</span>
+            <span className="chip-count important-count">{counts.important}</span>
           )}
         </button>
       </div>

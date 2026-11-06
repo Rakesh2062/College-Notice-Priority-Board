@@ -1,15 +1,11 @@
-
 import NoticeCard from "./NoticeCard";
 
-function NoticeList({ notices, onSelect, searchQuery = "" }) {
+function NoticeList({ notices, onSelect, pinnedIds, onTogglePin }) {
   if (notices.length === 0) {
     return (
       <div className="empty-state">
-        <span className="empty-icon">🔍</span>
-        <p>No notices found matching your criteria.</p>
-        {searchQuery && (
-          <span className="empty-hint">Try adjusting your search terms or clearing filters.</span>
-        )}
+        <span className="empty-icon">📋</span>
+        <p>No notices to display.</p>
       </div>
     );
   }
@@ -21,7 +17,8 @@ function NoticeList({ notices, onSelect, searchQuery = "" }) {
           key={notice._id}
           notice={notice}
           onSelect={onSelect}
-          searchQuery={searchQuery}
+          isPinned={pinnedIds.includes(notice._id)}
+          onTogglePin={onTogglePin}
         />
       ))}
     </div>

@@ -1,4 +1,8 @@
+const dns = require("dns");
 const mongoose = require("mongoose");
+
+// Force Google / Cloudflare public DNS servers to prevent Node.js querySrv ECONNREFUSED on Windows
+dns.setServers(["8.8.8.8", "1.1.1.1", "8.8.4.4"]);
 
 /**
  * connectDB — establishes a connection to MongoDB Atlas.
